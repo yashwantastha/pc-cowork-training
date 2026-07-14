@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Training · People &amp; Culture · Delivery Hero</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f7; color: #1d1d1f; line-height: 1.6; transition: background-color 0.2s, color 0.2s; }
+    body.dark-mode { background: #17181a; color: #e6e6e6; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+    header { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 20px; padding: 20px 24px; background: white; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); flex-wrap: wrap; }
+    body.dark-mode header { background: #232426; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+    .header-title h1 { font-size: 22px; margin: 0; }
+    .header-title p { font-size: 13px; color: #6e6e73; margin-top: 2px; }
+    body.dark-mode .header-title p { color: #a1a1a6; }
+    .header-controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .score-pill { font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 20px; background: #f4e3da; color: #a2543a; }
+    body.dark-mode .score-pill { background: #4a3226; color: #f0b499; }
+    .toggle-btn { background: white; color: #1d1d1f; border: 1px solid #d2d2d7; padding: 8px 14px; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: 500; }
+    body.dark-mode .toggle-btn { background: #2c2d2f; color: #e6e6e6; border-color: #444; }
+    .toggle-btn.on { background: #cc785c; color: white; border-color: #cc785c; }
+
+    .phase-banner { font-size: 12px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; color: #a2543a; background: #f4e3da; display: inline-block; padding: 3px 10px; border-radius: 10px; margin-bottom: 10px; }
+    body.dark-mode .phase-banner { background: #4a3226; color: #f0b499; }
+
+    nav { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+    .tab-btn { padding: 9px 15px; border: 1px solid #d2d2d7; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; background: white; color: #1d1d1f; transition: all .15s; white-space: nowrap; flex-shrink: 0; }
+    @media (max-width: 1000px) { .tab-btn { padding: 8px 11px; font-size: 12px; } }
+    body.dark-mode .tab-btn { background: #232426; color: #e6e6e6; border-color: #3a3b3d; }
+    .tab-btn.active { background: #cc785c; color: white; border-color: #cc785c; }
+    .tab-btn:hover:not(.active) { background: #f0f0f2; }
+    body.dark-mode .tab-btn:hover:not(.active) { background: #2c2d2f; }
+    .tab-btn:focus-visible, .toggle-btn:focus-visible, .dt-btn:focus-visible, .quiz-opt:focus-visible, .scenario:focus-visible { outline: 3px solid #7aa7ff; outline-offset: 2px; }
+
+    .section { display: none; }
+    .section.active { display: block; }
+
+    .card { background: white; border-radius: 12px; padding: 22px 24px; margin-bottom: 18px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+    body.dark-mode .card { background: #232426; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+
+    h2 { font-size: 19px; margin-bottom: 12px; color: #cc785c; }
+    h3 { font-size: 15px; margin-top: 16px; margin-bottom: 8px; }
+    p { margin-bottom: 8px; }
+    ul, ol { margin-left: 20px; margin-top: 8px; margin-bottom: 8px; }
+    li { margin-bottom: 4px; }
+    .muted { color: #6e6e73; font-size: 13px; }
+    body.dark-mode .muted { color: #a1a1a6; }
+    a { color: #cc785c; }
+
+    table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e5e5e7; vertical-align: top; }
+    body.dark-mode th, body.dark-mode td { border-bottom-color: #3a3b3d; }
+    th { background: #f5f5f7; font-weight: 600; }
+    body.dark-mode th { background: #2c2d2f; }
+
+    .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+    .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+    .input-group { display: flex; flex-direction: column; gap: 5px; font-size: 13px; font-weight: 500; }
+    input[type="number"], select { padding: 9px 10px; border: 1px solid #d2d2d7; border-radius: 8px; font-size: 14px; background: white; color: inherit; width: 100%; }
+    body.dark-mode input, body.dark-mode select { background: #1a1b1d; border-color: #444; color: #e6e6e6; }
+
+    .breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 14px 0; }
+    .breakdown-item { background: #f5f5f7; padding: 10px; border-radius: 8px; text-align: center; }
+    body.dark-mode .breakdown-item { background: #2c2d2f; }
+    .breakdown-label { font-size: 11px; color: #6e6e73; margin-bottom: 4px; }
+    body.dark-mode .breakdown-label { color: #a1a1a6; }
+    .breakdown-value { font-size: 17px; font-weight: 700; color: #cc785c; }
+
+    .concept-card { background: #f5f5f7; border-radius: 10px; padding: 16px; border-top: 4px solid #cc785c; }
+    body.dark-mode .concept-card { background: #2c2d2f; }
+    .concept-card h3 { margin-top: 0; color: #cc785c; }
+
+    .warn-box { background: #fff3cd; border-left: 4px solid #e6a817; padding: 12px 16px; border-radius: 6px; margin: 14px 0; font-size: 13.5px; }
+    body.dark-mode .warn-box { background: #3a2f14; }
+    .warn-box strong { display: block; margin-bottom: 4px; }
+    .danger-box { background: #fbe3e3; border-left: 4px solid #d9534f; padding: 12px 16px; border-radius: 6px; margin: 14px 0; font-size: 13.5px; }
+    body.dark-mode .danger-box { background: #3a1a1a; }
+    .danger-box strong { display: block; margin-bottom: 4px; }
+    .info-box { background: #e8f1fb; border-left: 4px solid #2196F3; padding: 12px 16px; border-radius: 6px; margin: 14px 0; font-size: 13.5px; }
+    body.dark-mode .info-box { background: #1b2838; border-left-color: #64b5f6; }
+
+    .prompt-box { background: #f5f5f7; border-radius: 8px; padding: 12px 14px; margin: 10px 0; font-family: ui-monospace, monospace; font-size: 12.5px; white-space: pre-wrap; border-left: 3px solid #cc785c; }
+    body.dark-mode .prompt-box { background: #1a1b1d; }
+
+    .recipe { border: 1px solid #e5e5e7; border-radius: 10px; padding: 18px 20px; margin-bottom: 16px; }
+    body.dark-mode .recipe { border-color: #3a3b3d; }
+    .recipe-title { font-weight: 700; font-size: 15px; color: #cc785c; }
+    .recipe-pain { font-size: 13px; font-style: italic; color: #6e6e73; margin: 4px 0 10px; }
+    body.dark-mode .recipe-pain { color: #a1a1a6; }
+
+    .scenario { background: #fff3e8; padding: 14px 16px; border-radius: 8px; margin: 12px 0; border-left: 4px solid #cc785c; cursor: pointer; }
+    body.dark-mode .scenario { background: #2e2318; }
+    .scenario-question { font-weight: 600; }
+    .scenario-answer { display: none; margin-top: 10px; padding: 10px; background: rgba(255,255,255,0.6); border-radius: 6px; font-size: 13px; }
+    body.dark-mode .scenario-answer { background: rgba(0,0,0,0.25); }
+    .scenario-answer.show { display: block; }
+
+    .quiz { border: 1px solid #e5e5e7; border-radius: 10px; padding: 16px 18px; margin: 14px 0; }
+    body.dark-mode .quiz { border-color: #3a3b3d; }
+    .quiz-q { font-weight: 600; margin-bottom: 10px; }
+    .quiz-opts { display: flex; flex-direction: column; gap: 8px; }
+    .quiz-opt { text-align: left; padding: 11px 14px; border: 1px solid #d2d2d7; border-radius: 8px; background: white; cursor: pointer; font-size: 13.5px; color: inherit; transition: all .12s; }
+    body.dark-mode .quiz-opt { background: #2c2d2f; border-color: #444; }
+    .quiz-opt:hover:not(:disabled) { border-color: #cc785c; }
+    .quiz-opt.correct { background: #dcf2e3; border-color: #4caf50; color: #1e7d43; font-weight: 600; }
+    body.dark-mode .quiz-opt.correct { background: #16351f; color: #7fd9a0; }
+    .quiz-opt.wrong { background: #fbe3e3; border-color: #e57373; color: #b03636; }
+    body.dark-mode .quiz-opt.wrong { background: #351616; color: #f0a0a0; }
+    .quiz-opt:disabled { cursor: default; }
+    .quiz-feedback { margin-top: 10px; font-size: 13px; padding: 10px 12px; border-radius: 6px; display: none; background: #f5f5f7; }
+    body.dark-mode .quiz-feedback { background: #2c2d2f; }
+    .quiz-feedback.show { display: block; }
+
+    .decision-tree { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+    .dt-question { font-weight: 600; margin-bottom: 6px; }
+    .dt-options { display: flex; gap: 10px; flex-wrap: wrap; }
+    .dt-btn { padding: 10px 16px; border: 1px solid #d2d2d7; border-radius: 8px; background: white; cursor: pointer; font-size: 13px; color: inherit; }
+    body.dark-mode .dt-btn { background: #2c2d2f; border-color: #444; color: #e6e6e6; }
+    .dt-btn:hover { border-color: #cc785c; }
+    .dt-result { margin-top: 14px; padding: 16px; border-radius: 8px; display: none; width: 100%; }
+    .dt-result.show { display: block; }
+    .dt-result.claude { background: #f4e3da; border-left: 4px solid #cc785c; }
+    .dt-result.gemini { background: #dce8fc; border-left: 4px solid #2255aa; }
+    body.dark-mode .dt-result.claude { background: #3a2a1f; }
+    body.dark-mode .dt-result.gemini { background: #1c2c47; }
+    .dt-result h3 { margin-top: 0; }
+    .dt-restart { margin-top: 10px; font-size: 12px; }
+
+    .hunt-list { list-style: none; margin-left: 0; }
+    .hunt-list li { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f0f0f2; }
+    body.dark-mode .hunt-list li { border-bottom-color: #2c2d2f; }
+    .hunt-list input[type="checkbox"] { margin-top: 3px; width: 16px; height: 16px; flex-shrink: 0; }
+    .hunt-progress { font-size: 13px; font-weight: 600; color: #cc785c; margin-top: 10px; }
+
+    .step-list { counter-reset: step; list-style: none; margin-left: 0; }
+    .step-list li { counter-increment: step; position: relative; padding: 6px 0 6px 32px; }
+    .step-list li::before { content: counter(step); position: absolute; left: 0; top: 6px; width: 22px; height: 22px; background: #f4e3da; color: #a2543a; border-radius: 50%; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    body.dark-mode .step-list li::before { background: #4a3226; color: #f0b499; }
+
+    .agenda-row { display: flex; gap: 14px; padding: 8px 0; border-bottom: 1px solid #e5e5e7; align-items: baseline; }
+    body.dark-mode .agenda-row { border-bottom-color: #3a3b3d; }
+    .agenda-num { min-width: 26px; font-weight: 700; font-size: 13px; color: #cc785c; }
+    .agenda-desc { font-size: 14px; }
+    .agenda-desc .muted { display: block; margin-top: 2px; }
+
+    .result { background: #eef7ee; padding: 16px; border-radius: 8px; margin-top: 12px; border-left: 4px solid #4caf50; }
+    body.dark-mode .result { background: #1b2e1b; border-left-color: #66bb6a; }
+    .result-value { font-size: 26px; font-weight: 700; color: #2e7d32; }
+    body.dark-mode .result-value { color: #81c784; }
+    .result-sub { font-size: 13px; margin-top: 6px; color: #444; }
+    body.dark-mode .result-sub { color: #bbb; }
+
+    footer { text-align: center; padding: 20px; font-size: 12px; color: #999; }
+</style>
+</head>
+<body>
+<div class="container">
+
+    <header>
+        <div class="header-title">
+            <h1>🚀 Claude for the People Team</h1>
+            <p>Hands-on Claude &amp; Cowork enablement · P&amp;C Central, People Ops, Total Rewards &amp; TA · Delivery Hero</p>
+        </div>
+        <div class="header-controls">
+            <span class="score-pill" id="scorePill" aria-live="polite">Quiz: 0 / 0</span>
+            <button class="toggle-btn" onclick="toggleDarkMode()" aria-label="Toggle dark mode">🌙 Dark Mode</button>
+        </div>
+    </header>
+
+    <nav aria-label="Training sections">
+        <button class="tab-btn active" onclick="showTab('start', this)">🏠 Start Here</button>
+        <button class="tab-btn" onclick="showTab('p1', this)">📚 Phase 1 · Foundations</button>
+        <button class="tab-btn" onclick="showTab('p2', this)">🔌 Phase 2 · Workflows</button>
+        <button class="tab-btn" onclick="showTab('p3', this)">🤖 Phase 3 · Agentic</button>
+        <button class="tab-btn" onclick="showTab('trylive', this)">🔧 Try It Live</button>
+        <button class="tab-btn" onclick="showTab('recipes', this)">🍳 HR Recipes</button>
+        <button class="tab-btn" onclick="showTab('compare', this)">⚖️ Compare &amp; Cost</button>
+        <button class="tab-btn" onclick="showTab('settings', this)">⚙️ Settings</button>
+        <button class="tab-btn" onclick="showTab('governance', this)">🛡️ Governance</button>
+        <button class="tab-btn" onclick="showTab('faq', this)">❓ FAQ &amp; Wrap-Up</button>
+        <button class="tab-btn" onclick="showTab('facilitator', this)">🎤 For Facilitators</button>
+    </nav>
+
+    <!-- ============ START HERE ============ -->
+    <section id="start" class="section active" aria-label="Start here">
+        <div class="card">
+            <h2>What Is This, Really?</h2>
+            <p>This is a hands-on introduction to two AI assistants the People team now has access to: <strong>Claude</strong> (Chat + Cowork) and <strong>Gemini Enterprise</strong>. Think of either one like a very fast colleague who's read almost everything, answers straight away, and can reach into your connected apps when you ask. By the end you'll know which tool to use for which job, how to connect them safely, and you'll have run a real People-team task yourself.</p>
+            <p>The big shift to get comfortable with: you're moving from <em>doing the work with an AI</em> to <em>delegating the work to it and reviewing the result</em>, like managing a capable new hire rather than typing into a search box. That's the whole reason Cowork feels different from Gemini.</p>
+            <div class="info-box"><strong>What this session is (and isn't).</strong> This is a <strong>basic, generic first workshop</strong>: the goal is that everyone understands how the tools work and what's possible, full stop. We're deliberately <em>not</em> splitting into separate tracks per job family today. Role-specific use cases (Total Rewards, People Ops, TA, and the rest) come in <strong>follow-up sessions we'll build live together</strong>, taking real tasks from the group once everyone knows how the system behaves.</div>
+        </div>
+
+        <div class="card">
+            <h2>Your $1,000 Cowork Credit</h2>
+            <p>Every person in this pilot has a <strong>$1,000 Claude Cowork credit</strong>, think of it like a $1,000 gift card that only works for Claude Cowork. No personal card, no invoice to submit. The point of today is to help you use it well, so the People team gets real value from it before the budget model changes in October (covered in Compare &amp; Cost).</p>
+        </div>
+
+        <div class="card">
+            <h2>⚠️ Three Things to Know Before You Touch Anything</h2>
+            <div class="warn-box">
+                <strong>It can sound sure of itself and still be wrong.</strong>
+                These tools are prediction engines, not truth engines. They can get a name wrong, misread a policy, or invent a detail that sounds real, confidently. That's why every task ends with <em>you</em> checking it before you send or act. Your new core skill isn't writing, it's auditing.
+            </div>
+            <div class="warn-box">
+                <strong>It should ask before it acts.</strong>
+                Claude and Gemini are meant to ask for approval before sending an email, posting a message, or changing anything outside the chat. If you don't see an approval step, that's unusual, stop and flag it. Be explicit in your instruction ("draft this, don't send it").
+            </div>
+            <div class="danger-box">
+                <strong>🔒 Never paste employee or candidate personal data into the chat.</strong>
+                No names tied to salaries, no ID numbers, no health, disciplinary, disability, ethnicity, religion or union information. This is <strong>Special Category Data under GDPR</strong> and it must not go into a prompt. The People team handles the most sensitive data in the company, so the Governance tab is not optional reading for us, it's the first tab that matters.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Prerequisite (already done for this session)</h2>
+            <p>Everyone here already has Claude Desktop installed and is signed in with their Delivery Hero work account, nothing to set up today. Gemini Enterprise runs in your browser, also signed in with your work account, no install. If either ever asks for a personal Google/email account instead of your work one, stop and flag it.</p>
+            <p class="muted">If sign-in looks broken: log fully out and back in (don't just close the app). That fixes most issues.</p>
+        </div>
+
+        <div class="card">
+            <h2>Today's Flow (≈3 hours, short breaks)</h2>
+            <div class="agenda-row"><div class="agenda-num">1</div><div class="agenda-desc">Phase 1 · Foundations<span class="muted">What these tools are, Chat vs Cowork vs Code, Gemini Enterprise, the prompt framework, tokens &amp; context</span></div></div>
+            <div class="agenda-row"><div class="agenda-num">2</div><div class="agenda-desc">Phase 2 · Workflows<span class="muted">Connectors (incl. Slack), Gemini Gems vs Claude Projects, Skills, the "important folder"</span></div></div>
+            <div class="agenda-row"><div class="agenda-num">3</div><div class="agenda-desc">Phase 3 · Agentic Automation<span class="muted">Cowork end-to-end, scheduled background tasks, plugins</span></div></div>
+            <div class="agenda-row"><div class="agenda-num">4</div><div class="agenda-desc">HR Recipes &amp; Hands-On<span class="muted">Run a real People-team task: onboarding plan, offer/JD draft, or policy Q&amp;A</span></div></div>
+            <div class="agenda-row"><div class="agenda-num">5</div><div class="agenda-desc">Compare &amp; Cost + Governance<span class="muted">Which tool when, how far $1,000 goes, and the guardrails that protect employee data</span></div></div>
+            <p class="muted" style="margin-top:10px;">Quizzes are dotted through each tab, your score shows top-right. There's no pass/fail, it's a self-check. Co-facilitators will run a couple live.</p>
+        </div>
+    </section>
+
+    <!-- ============ PHASE 1 ============ -->
+    <section id="p1" class="section" aria-label="Phase 1 Foundations">
+        <div class="card">
+            <span class="phase-banner">Phase 1 · Foundational Literacy</span>
+            <h2>📚 From "Search Box" to "Digital Colleague"</h2>
+            <p>Most of us learned AI as a better search engine: type a question, get an answer. That mental model works for Gemini and quick lookups, but it's exactly what makes Cowork confusing at first. Cowork wants an <strong>outcome and access</strong> ("here's a folder, produce a 30-60-90 onboarding plan"), then it plans and executes multiple steps. Same underlying model, very different way of working.</p>
+            <div class="info-box"><strong>The one idea to hold onto:</strong> generative AI is a <em>probabilistic prediction engine</em>, not a deterministic truth engine. It predicts a likely-good answer. Usually excellent, occasionally confidently wrong. That single fact explains why we verify everything and keep a human in the loop.</div>
+        </div>
+
+        <div class="card">
+            <h2>Meet the Tools: Chat vs Cowork vs Code</h2>
+            <div class="grid3">
+                <div class="concept-card"><h3>💬 Claude Chat</h3><p class="muted">Working at a desk. Quick answers, drafts, thinking out loud. Acts through a connector only when you approve each step.</p></div>
+                <div class="concept-card"><h3>🛠️ Claude Cowork</h3><p class="muted">A digital "Chief of Staff" on your desktop. Give it a folder and an outcome; it opens files, works through steps, and hands back a finished result.</p></div>
+                <div class="concept-card"><h3>🧑‍💻 Claude Code</h3><p class="muted">A "bulk document processor" built for engineers. You almost certainly won't need it, though it's the tool behind pointing at hundreds of contracts at once (a Legal use case, not ours).</p></div>
+            </div>
+            <p style="margin-top:12px;">There's also <strong>Claude Design</strong>, an "interactive whiteboard" that turns text into slide decks and one-pagers, handy later for People-team comms, but not today's focus.</p>
+        </div>
+
+        <div class="card">
+            <h2>Meet Gemini Enterprise (Web)</h2>
+            <p>Gemini Enterprise runs in your browser, nothing to install, and comes ready-connected to a lot out of the box. It's the company default for everyday work because it's fast, broad, and <strong>free to use as much as you want</strong>, so it never touches your $1,000 Cowork credit.</p>
+            <div class="grid2">
+                <div class="breakdown-item"><div class="breakdown-label">Google Workspace (one toggle)</div><div class="breakdown-value" style="font-size:13px;">Gmail, Calendar, Drive, Docs, Chat, Keep, Tasks</div></div>
+                <div class="breakdown-item"><div class="breakdown-label">Also connected</div><div class="breakdown-value" style="font-size:13px;">GitHub, Asana</div></div>
+            </div>
+            <div class="warn-box"><strong>"Google Chat" is not Slack.</strong> Gemini Enterprise here can't read Slack, that's Claude-only, covered in Phase 2.</div>
+        </div>
+
+        <div class="card">
+            <h2>The Prompt Framework: R·T·F·C·G</h2>
+            <p>The first output is rarely perfect, and that's what discourages people. A repeatable structure fixes most of it. Define five things and vague requests turn into reliable outputs:</p>
+            <table>
+                <thead><tr><th>Element</th><th>What to specify</th><th>People-team example</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Role</strong></td><td>Who the AI should act as</td><td>"You are an experienced People Ops partner at a global company."</td></tr>
+                    <tr><td><strong>Task</strong></td><td>The exact job to do</td><td>"Draft a 30-60-90 day onboarding checklist."</td></tr>
+                    <tr><td><strong>Format</strong></td><td>Shape of the output</td><td>"As a Markdown table with a column for owner and due week."</td></tr>
+                    <tr><td><strong>Context</strong></td><td>The background it needs</td><td>"Based on the attached job description and our onboarding policy."</td></tr>
+                    <tr><td><strong>Guardrails</strong></td><td>What it must / must not do</td><td>"Don't invent policies; if something isn't in the docs, flag it. No employee names."</td></tr>
+                </tbody>
+            </table>
+            <div class="prompt-box">Role: You are an experienced People Ops partner.
+Task: Draft a 30-60-90 day onboarding checklist for the role in the attached JD.
+Format: A Markdown table, columns = Milestone | Owner | Target week.
+Context: Use only the attached JD and our onboarding policy in this folder.
+Guardrails: Don't invent any policy. Flag anything missing rather than guessing. Use the role title, never a person's name.</div>
+            <p class="muted">Anthropic and Google both reward this. It's the single habit that most improves your results, and it's what the hands-on recipes are built on.</p>
+        </div>
+
+        <div class="card">
+            <h2>Tokens, Context &amp; Markdown, in Plain Language</h2>
+            <p>A <strong>token</strong> is a small chunk of text, roughly a syllable. The AI reads and writes in tokens. Rough rules of thumb:</p>
+            <ul>
+                <li>1 page of a dense doc (~400 words) ≈ 500–600 tokens</li>
+                <li>A 20-page policy document ≈ 10,000–12,000 tokens</li>
+            </ul>
+            <p><strong>Context</strong> is simply everything the assistant is holding in mind right now, your instruction, the files it opened, earlier messages, connected data it pulled in. A <strong>.md (Markdown)</strong> file is just a plain-text document with light formatting (# for headings, - for bullets); Cowork often hands back .md because it's clean and reusable.</p>
+            <div class="info-box"><strong>Why People teams should care about context:</strong> when you hand Cowork a folder, everything in it becomes context. That's powerful (it can reason across the handbook + a JD at once) and a responsibility (don't put a payroll export in a folder you've granted access to). More in Governance.</div>
+        </div>
+
+        <div class="card">
+            <h2>Quick Check</h2>
+            <div class="quiz" data-quiz="p1">
+                <div class="quiz-q">1. The best one-line description of how generative AI works is…</div>
+                <div class="quiz-opts">
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">A deterministic truth engine that looks up verified facts</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,true)">A probabilistic prediction engine, usually great, occasionally confidently wrong</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">A database of the company's approved answers</button>
+                </div>
+                <div class="quiz-feedback">Correct: it predicts a likely-good answer. That's why we always verify and keep a human in the loop.</div>
+            </div>
+            <div class="quiz" data-quiz="p1">
+                <div class="quiz-q">2. In R·T·F·C·G, "if something isn't in the attached policy, flag it rather than guess" is an example of a…</div>
+                <div class="quiz-opts">
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">Role</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,true)">Guardrail</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">Format</button>
+                </div>
+                <div class="quiz-feedback">Correct: guardrails constrain behaviour, exactly the kind of instruction that reduces hallucinations on People-team work.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PHASE 2 ============ -->
+    <section id="p2" class="section" aria-label="Phase 2 Workflows">
+        <div class="card">
+            <span class="phase-banner">Phase 2 · Workflow Application</span>
+            <h2>🔌 Connectors: How It Reaches Your Apps</h2>
+            <p>A connector is a secure "bridge" that lets Claude or Gemini see one of your other apps, your inbox, calendar, Drive, and for Claude, Slack. Without one, the tool only knows what you type. You connect via a standard sign-in (OAuth) and grant permission, no coding.</p>
+            <div class="warn-box"><strong>One rule that beats every feature:</strong> a connector only shows what <em>you</em> could already see yourself. Connecting it to a channel or drive you can't access doesn't unlock anything. And default to <strong>read-only</strong> access until you fully trust a workflow.</div>
+            <p class="muted">Already enabled for this session, Gemini Enterprise: Google Workspace, GitHub, Asana. Claude: Slack, Gmail, Drive, Calendar. If one won't authorize, it's usually the org toggle, flag it.</p>
+        </div>
+
+        <div class="card">
+            <h2>Connecting Claude to Slack, Two Different Things</h2>
+            <table>
+                <thead><tr><th>Feature</th><th>What it does</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Claude in Slack</strong></td><td>Adds Claude as an app inside Slack, you message it like a colleague. (Being renamed "Claude Tag" from early August 2026.)</td></tr>
+                    <tr><td><strong>The Slack connector</strong></td><td>Turned on in Claude's own settings; lets Claude read your channels, DMs and shared files as context, e.g. "summarize what's happened in #people-ops-berlin this week." Only sees what you can see.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Gemini Gems vs Claude Projects (the migration trap)</h2>
+            <p>If you've used Gemini "Gems", Claude "Projects" look similar but handle memory differently, and mixing up the two causes most early frustration:</p>
+            <div class="grid2">
+                <div class="concept-card"><h3>Gemini Gems</h3><p class="muted">Lightweight. Link a live Google Drive file and it always references the latest version without re-uploading. Great for convenience; limited for heavy analysis.</p></div>
+                <div class="concept-card"><h3>Claude Projects</h3><p class="muted">A persistent workspace where you upload a corpus once, e.g. five policy documents, set standing instructions ("always answer in DH tone, cite the policy"), and every chat in that Project already has that context.</p></div>
+            </div>
+            <p>For People work: put your handbook, leave policy, and onboarding guide into one Project, set the tone once, and every "what's our policy on X" question starts from that context instead of a blank page.</p>
+        </div>
+
+        <div class="card">
+            <h2>Skills &amp; the "Important Folder"</h2>
+            <p><strong>Skills</strong> are reusable, packaged capabilities, like camera presets. You pick one and it handles the details (e.g. producing a polished Word or Excel file). Some are built in; your admins may push custom ones, check the Plugins panel to see what's available to the People team.</p>
+            <p><strong>The "important folder"</strong> is the practical safety habit: when Cowork works on your files, you grant access to <em>one dedicated folder</em>, not your whole computer.</p>
+            <ul>
+                <li>One folder per task or project.</li>
+                <li>Grant access to only that folder.</li>
+                <li>Never point it at HR records, payroll, or personnel files "just in case".</li>
+            </ul>
+            <p class="muted">Same idea as giving a contractor a key to one room, not the whole building. This matters more for us than most teams, because of what our folders contain.</p>
+        </div>
+
+        <div class="card">
+            <h2>Quick Check</h2>
+            <div class="quiz" data-quiz="p2">
+                <div class="quiz-q">1. You want to ask "what's our parental leave policy?" repeatedly, always grounded in the same set of HR documents. Best setup?</div>
+                <div class="quiz-opts">
+                    <button class="quiz-opt" onclick="answerQuiz(this,true)">A Claude Project with the policy docs uploaded and standing instructions set</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">Paste the whole handbook into every new chat</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">Ask from memory and hope it's current</button>
+                </div>
+                <div class="quiz-feedback">Correct: Projects hold a persistent corpus + tone, so every question starts from the right context, no re-uploading.</div>
+            </div>
+            <div class="quiz" data-quiz="p2">
+                <div class="quiz-q">2. A connector lets Claude see a Slack channel you personally have no access to. True or false?</div>
+                <div class="quiz-opts">
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">True, connectors unlock everything in the workspace</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,true)">False, it only ever sees what you can already see</button>
+                </div>
+                <div class="quiz-feedback">Correct: the connector inherits your permissions, never more. That's the rule that beats every feature.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PHASE 3 ============ -->
+    <section id="p3" class="section" aria-label="Phase 3 Agentic">
+        <div class="card">
+            <span class="phase-banner">Phase 3 · Agentic Automation</span>
+            <h2>🤖 Delegating a Whole Task to Cowork</h2>
+            <p>This is where the "manage the AI as it works" mindset pays off. A Cowork task isn't one message, it's the tool reading files, planning steps, drafting, checking, and revising, then handing you a result to review. Your job shifts from typing to <strong>describing the outcome, granting access, and auditing the plan and output</strong>.</p>
+            <ol class="step-list">
+                <li>Create a dedicated folder for the task and put the inputs in it.</li>
+                <li>Describe the end state clearly (use R·T·F·C·G).</li>
+                <li>Keep it in <strong>"Ask before acting"</strong> mode so it pauses before doing anything real.</li>
+                <li>Review the plan it proposes <em>before</em> you click Approve.</li>
+                <li>Check the output against the source before you use it.</li>
+            </ol>
+        </div>
+
+        <div class="card">
+            <h2>Scheduled Background Tasks</h2>
+            <p>Cowork can run recurring tasks on a schedule, even when your laptop is closed. The classic pattern is a <strong>morning digest</strong>. A People-team version: every Monday at 8:00, summarize new joiners starting this week from the shared tracker and draft welcome notes for review.</p>
+            <div class="warn-box"><strong>Automate the drafting, never the deciding.</strong> A scheduled task can prepare and draft; it should not send anything sensitive or make a people decision on its own. Always leave the final review to a human.</div>
+        </div>
+
+        <div class="card">
+            <h2>Plugins</h2>
+            <p><strong>Plugins</strong> bundle connectors, skills and shortcuts into a role-specific toolset, so you inherit an optimized workflow instead of building prompts from scratch. Rather than memorizing anything, browse the Plugins panel and see what's installed for the People team.</p>
+            <div class="info-box"><strong>A note on honesty:</strong> if you read about a ready-made "HR plugin" with one-click commands for offers or onboarding, treat it as "check whether it's actually installed for us" rather than assuming it exists. The recipes in the next tab work today using plain Cowork, no special plugin required, and you can swap in a plugin later if one is available.</div>
+        </div>
+
+        <div class="card">
+            <h2>Quick Check</h2>
+            <div class="quiz" data-quiz="p3">
+                <div class="quiz-q">1. Before clicking "Approve" on a Cowork execution plan, you should…</div>
+                <div class="quiz-opts">
+                    <button class="quiz-opt" onclick="answerQuiz(this,true)">Read the plan and make sure it matches your intent</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">Approve fast, you can always undo later</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">Turn off "Ask before acting" to save time</button>
+                </div>
+                <div class="quiz-feedback">Correct: execution auditing, reviewing the plan before approving, is your safety net for agentic work.</div>
+            </div>
+            <div class="quiz" data-quiz="p3">
+                <div class="quiz-q">2. A good use of a scheduled Cowork task for the People team is to…</div>
+                <div class="quiz-opts">
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">Automatically send offer letters to candidates each morning</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,true)">Draft a Monday new-joiner digest and welcome notes for a human to review</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">Auto-approve leave requests overnight</button>
+                </div>
+                <div class="quiz-feedback">Correct: automate the drafting, never the deciding or the sending of sensitive items.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ TRY IT LIVE ============ -->
+    <section id="trylive" class="section" aria-label="Try it live">
+        <div class="card">
+            <h2>🔧 Try It Live, Right Now</h2>
+            <p>Not a demo you watch, something you do on your own laptop at the same time as everyone else in the room. We'll connect the everyday connectors on both tools, then run the exact same question in each and compare. If yours doesn't work, say so out loud, someone near you probably hit the same snag.</p>
+            <div class="warn-box"><strong>If a connector won't authorize:</strong> it's almost always the org-level toggle, not something you did wrong. Flag a facilitator rather than troubleshooting alone.</div>
+        </div>
+
+        <div class="card">
+            <h2>Step 1 · Connect the Everyday Connectors</h2>
+            <p class="muted">In Claude Desktop: Settings → Customize → Connectors → Connect, then authorize in the browser tab that opens. Tick each one as it connects.</p>
+            <ol class="step-list">
+                <li>Open Claude Desktop → Settings → Customize → Connectors</li>
+                <li>Connect Slack, authorize in the browser, come back when done</li>
+                <li>Connect Gmail, Google Drive, and Google Calendar the same way</li>
+                <li>Switch to Gemini Enterprise in your browser → Settings → Connected Apps; the single "Google Workspace" toggle should already cover Gmail, Calendar and Drive together</li>
+            </ol>
+            <ul class="hunt-list" id="liveHuntList">
+                <li><input type="checkbox" onchange="updateHuntProgress()" aria-label="Claude Slack connected"> Claude: Slack connected</li>
+                <li><input type="checkbox" onchange="updateHuntProgress()" aria-label="Claude Gmail connected"> Claude: Gmail connected</li>
+                <li><input type="checkbox" onchange="updateHuntProgress()" aria-label="Claude Drive connected"> Claude: Drive connected</li>
+                <li><input type="checkbox" onchange="updateHuntProgress()" aria-label="Claude Calendar connected"> Claude: Calendar connected</li>
+                <li><input type="checkbox" onchange="updateHuntProgress()" aria-label="Gemini Workspace connected"> Gemini Enterprise: Google Workspace connected</li>
+            </ul>
+            <div class="hunt-progress" id="liveHuntProgress">0 / 5 connected</div>
+        </div>
+
+        <div class="card">
+            <h2>Step 2 · Run the Same Question in Both</h2>
+            <p>Once you're connected on both tools, ask each one the exact same thing:</p>
+            <div class="prompt-box">Do I have any unread emails that look urgent, and what's on my calendar for the rest of today?</div>
+            <h3>What to compare</h3>
+            <ul>
+                <li><strong>Speed</strong>, which answered faster?</li>
+                <li><strong>Trust</strong>, whose answer did you believe more, and why?</li>
+                <li><strong>Approval</strong>, did either one pause to ask before doing anything, or just answer?</li>
+            </ul>
+            <p class="muted">Then, Claude-only: try "Summarize what's happened in #[a People-team channel you're in] over the last day." Gemini Enterprise here can't do this one, our Gemini isn't connected to Slack, which is a concrete reminder of where each tool's reach ends.</p>
+            <div class="info-box">This connect-and-compare block is the natural co-facilitator hand-off, see the <strong>For Facilitators</strong> tab for how to run it.</div>
+        </div>
+    </section>
+
+    <!-- ============ HR RECIPES ============ -->
+    <section id="recipes" class="section" aria-label="HR Recipes">
+        <div class="card">
+            <h2>🍳 How to Read a "Recipe"</h2>
+            <p>Each recipe maps to a painful, repetitive People-team task. The pattern is always the same: a co-facilitator runs it live, then <strong>you replicate it with your own (non-sensitive) sample data</strong> while support is in the room. Every recipe ends with a verification step, because that's the job now.</p>
+            <p class="muted">The three are deliberately drawn from <strong>different P&amp;C functions</strong> so everyone sees something familiar: Recipe 1 is a <strong>People Ops</strong> job, Recipe 2 is a <strong>Total Rewards</strong> job, and Recipe 3 is shared knowledge work any function does. The <em>technique</em> is identical across all of them, so whichever you run, it transfers to your own work.</p>
+            <div class="danger-box"><strong>Use sample / anonymized data in the workshop.</strong> For practice, strip real names and any personal identifiers. Use "Candidate A", a fake start date, a placeholder salary band. The skill transfers perfectly; the risk doesn't.</div>
+        </div>
+
+        <div class="recipe">
+            <div class="recipe-title">Recipe 1 · 30-60-90 Day Onboarding Checklist</div>
+            <div class="recipe-pain">"Building a tailored onboarding plan for every new role, from scratch, every time."</div>
+            <p><strong>Tool:</strong> Claude Cowork · <strong>Inputs:</strong> the role's job description + your onboarding policy/guide, in one folder.</p>
+            <ol class="step-list">
+                <li>Put the JD and the onboarding policy into a dedicated folder; grant Cowork access to just that folder.</li>
+                <li>Prompt it with R·T·F·C·G (below).</li>
+                <li>Review the draft, correct anything that drifted from the policy, then export to your template.</li>
+            </ol>
+            <div class="prompt-box">Role: You are an experienced People Ops partner.
+Task: Create a 30-60-90 day onboarding plan for the role in the attached JD.
+Format: Markdown table, columns = Milestone | Owner | Target week | Source (which policy section it came from).
+Context: Use only the JD and onboarding policy in this folder.
+Guardrails: Don't invent steps or policies. Flag gaps as "TBC - confirm with manager". Use the role title, never a person's name.</div>
+            <p class="muted"><strong>Verify:</strong> spot-check three rows against the policy's "Source" column. If a row has no source, it's a hallucination candidate, cut or confirm it.</p>
+        </div>
+
+        <div class="recipe">
+            <div class="recipe-title">Recipe 2 · Offer Letter &amp; Job Description Drafting</div>
+            <div class="recipe-pain">"Re-typing near-identical offer letters and JDs, then re-checking them for consistency."</div>
+            <p><strong>Tool:</strong> Claude Chat or Cowork · <strong>Inputs:</strong> your approved offer/JD template + structured, non-personal details (role, level, comp band, location, start date).</p>
+            <ol class="step-list">
+                <li>Provide the template and the structured fields, use a placeholder like "[CANDIDATE NAME]" rather than a real name.</li>
+                <li>Ask it to fill the template and flag anything missing.</li>
+                <li>Human-review comp figures against the source band before anything leaves the building.</li>
+            </ol>
+            <div class="prompt-box">Role: You are a Total Rewards specialist.
+Task: Draft an offer letter from the attached template using these fields: [role], [level], [comp band placeholder], [location], [start date]. Use [CANDIDATE NAME] as a placeholder.
+Format: Follow the template exactly; return only the filled letter.
+Context: The template and our offer guidelines in this folder.
+Guardrails: Do not invent numbers or clauses. If a field is missing, insert "[MISSING - confirm]". No real personal data.</div>
+            <div class="warn-box"><strong>Compensation needs human validation.</strong> AI can be unreliable on pay figures, especially senior roles. Treat every number as "confirm against the source band", never as final.</div>
+            <p class="muted"><strong>Verify:</strong> check every bracketed field is resolved, and that the comp figure matches the approved band before signing/sending.</p>
+        </div>
+
+        <div class="recipe">
+            <div class="recipe-title">Recipe 3 · Policy &amp; Handbook Q&amp;A + People-Team Comms</div>
+            <div class="recipe-pain">"Answering the same handbook questions all day, and re-drafting the same All-Hands updates."</div>
+            <p><strong>Tool:</strong> Claude Project (for Q&amp;A) or Chat (for comms) · <strong>Inputs:</strong> your current HR policy documents.</p>
+            <ol class="step-list">
+                <li>Create a Project, upload the current policies, and set a standing instruction: "Answer only from these documents, quote the relevant section, and say 'not covered' if it isn't there."</li>
+                <li>Ask real questions ("What's the notice period for probation?") and confirm it cites the section.</li>
+                <li>For comms, ask it to draft the update in DH's voice from bullet points, then edit for tone.</li>
+            </ol>
+            <div class="prompt-box">Role: You are a People Ops knowledge assistant.
+Task: Answer the employee's question about our policy.
+Format: A short answer, then "Source: [policy name, section]".
+Context: Use ONLY the documents uploaded to this Project.
+Guardrails: If the answer isn't in the documents, say "Not covered, please check with your P&C partner." Never guess.</div>
+            <p class="muted"><strong>Verify:</strong> the "Source" line lets anyone trace the answer back. No source = don't rely on it. Keep policies in the Project up to date.</p>
+        </div>
+
+        <div class="card">
+            <h2>👉 Your Turn</h2>
+            <p>Pick one recipe and run it with sample data. Co-facilitators will circulate. When you're done, we'll take 2–3 volunteers to share what they built.</p>
+            <div class="scenario" onclick="toggleScenario(this)" role="button" tabindex="0" onkeypress="if(event.key==='Enter')toggleScenario(this)">
+                <div class="scenario-question">💭 Stuck on what to try? Tap for a safe starter.</div>
+                <div class="scenario-answer">Take a real, published JD (no personal data in it), drop it in a folder with a one-page fake "onboarding policy" you write in 2 minutes, and run Recipe 1. You'll see the whole loop, grant access, prompt, review, verify, without touching anything sensitive.</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Quick Check</h2>
+            <div class="quiz" data-quiz="recipes">
+                <div class="quiz-q">1. What's the purpose of the "Source" column / line in these recipes?</div>
+                <div class="quiz-opts">
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">To make the output look more official</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,true)">So you can trace each claim back to a document, anything unsourced is a hallucination risk</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">It's required by the tool and can't be removed</button>
+                </div>
+                <div class="quiz-feedback">Correct: forcing a source turns "trust me" into "check me", the core verification habit.</div>
+            </div>
+            <div class="quiz" data-quiz="recipes">
+                <div class="quiz-q">2. In the workshop, the safe way to practise the offer-letter recipe is to…</div>
+                <div class="quiz-opts">
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">Use a real candidate's details to make it realistic</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,true)">Use placeholders like [CANDIDATE NAME] and a fake comp band</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">Pull the latest offer from your inbox</button>
+                </div>
+                <div class="quiz-feedback">Correct: the skill transfers with placeholders; the risk doesn't. Never practise on real personal data.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ COMPARE & COST ============ -->
+    <section id="compare" class="section" aria-label="Compare and cost">
+        <div class="card">
+            <h2>⚖️ Which Tool, When?</h2>
+            <p class="muted">Answer about a task in front of you now.</p>
+            <div class="decision-tree" id="dtRoot">
+                <div id="dtStep1">
+                    <div class="dt-question">1. Is this a quick, well-defined task? (a short draft, a lookup, a simple rewrite)</div>
+                    <div class="dt-options">
+                        <button class="dt-btn" onclick="dtAnswer(1,'yes')">Yes, quick &amp; simple</button>
+                        <button class="dt-btn" onclick="dtAnswer(1,'no')">No, it's more involved</button>
+                    </div>
+                </div>
+                <div id="dtStep2" style="display:none;">
+                    <div class="dt-question">2. Does it involve pulling together multiple files, apps, or steps?</div>
+                    <div class="dt-options">
+                        <button class="dt-btn" onclick="dtAnswer(2,'yes')">Yes, multi-step or multi-file</button>
+                        <button class="dt-btn" onclick="dtAnswer(2,'no')">No, one app, one step</button>
+                    </div>
+                </div>
+                <div class="dt-result claude" id="dtResultClaude">
+                    <h3>👉 Use Claude Cowork</h3>
+                    <p>Multi-step, multi-file work is exactly what Cowork is built for (e.g. an onboarding plan from a JD + policy). If it's also high-stakes, that's a reason to verify carefully, not a reason to skip verification.</p>
+                    <button class="dt-btn dt-restart" onclick="dtRestart()">↺ Try another</button>
+                </div>
+                <div class="dt-result gemini" id="dtResultGeminiSimple">
+                    <h3>👉 Use Gemini Enterprise</h3>
+                    <p>Quick and well-scoped, Gemini gets it done fast and free, so it doesn't touch your Cowork credit. Save Cowork for tasks that need it.</p>
+                    <button class="dt-btn dt-restart" onclick="dtRestart()">↺ Try another</button>
+                </div>
+                <div class="dt-result gemini" id="dtResultGeminiModerate">
+                    <h3>👉 Use Gemini Enterprise</h3>
+                    <p>Single app, single step, Gemini is the default here since it's free even for something important. Reach for Cowork when scope grows to multiple apps or steps.</p>
+                    <button class="dt-btn dt-restart" onclick="dtRestart()">↺ Try another</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>How the Two Are Paid For</h2>
+            <ul>
+                <li><strong>Gemini Enterprise</strong>, an all-you-can-eat plan we've already paid for. Use it as much as you want; nothing runs out.</li>
+                <li><strong>Claude Cowork</strong>, a $1,000 gift card that goes down as you use it.</li>
+            </ul>
+            <div class="warn-box"><strong>Rule of thumb:</strong> Gemini first for routine, single-app work (free). Claude Cowork when a task spans multiple files/apps and needs several steps done for you. Just reading things (a channel, an inbox, a doc) barely dents your credit.</div>
+        </div>
+
+        <div class="card">
+            <h2>How Far Does $1,000 Go?</h2>
+            <div class="warn-box"><strong>Approximation, not billing.</strong> The exact pilot formula isn't published to us, so treat every figure here as intuition-building, not a forecast. A Cowork task is many steps (read, think, check, draft, revise), hence the "steps" field.</div>
+            <div class="grid2">
+                <div class="input-group"><label for="inTok">Input size per step (tokens)</label><input type="number" id="inTok" value="3000" oninput="calcCost()"></div>
+                <div class="input-group"><label for="outTok">Output size per step (tokens)</label><input type="number" id="outTok" value="800" oninput="calcCost()"></div>
+            </div>
+            <div class="grid2" style="margin-top:12px;">
+                <div class="input-group"><label for="steps">Steps this task takes</label><input type="number" id="steps" value="10" oninput="calcCost()"></div>
+                <div class="input-group"><label for="perWeek">Times per week you'd run it</label><input type="number" id="perWeek" value="10" oninput="calcCost()"></div>
+            </div>
+            <div class="result">
+                <div>Estimated cost per task:</div>
+                <div class="result-value" id="costVal">$0.00</div>
+                <div class="result-sub" id="costSub"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📅 Your Budget Timeline (it's not $1,000 forever)</h2>
+            <p>The $1,000 is a one-time pilot credit through <strong>September</strong>. Hard to run out doing normal work.</p>
+            <div class="warn-box"><strong>From October it changes.</strong> The pot is replaced by a monthly budget, roughly <strong>$50/month for most, $100/month for some functions</strong>. Renews monthly, but it's smaller, so the habits you build now (Gemini-first, Cowork for the genuinely multi-step) are what keep you comfortably inside it.</div>
+            <div class="grid2">
+                <div class="breakdown-item"><div class="breakdown-label">$50/month covers roughly</div><div class="breakdown-value">90–500 tasks</div></div>
+                <div class="breakdown-item"><div class="breakdown-label">$100/month covers roughly</div><div class="breakdown-value">180–1,000 tasks</div></div>
+            </div>
+            <p class="muted">A solid multi-step Cowork task typically lands around $0.10–$0.55. That's several substantial tasks every working day.</p>
+        </div>
+
+        <div class="card">
+            <h2>Quick Check</h2>
+            <div class="quiz" data-quiz="compare">
+                <div class="quiz-q">1. A recruiter needs a one-line summary of an email chain. Best tool?</div>
+                <div class="quiz-opts">
+                    <button class="quiz-opt" onclick="answerQuiz(this,true)">Gemini Enterprise, quick, single-step, free</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">Claude Cowork, always use the most powerful tool</button>
+                </div>
+                <div class="quiz-feedback">Correct: routine single-step work goes to Gemini and never touches your credit. Save Cowork for multi-step jobs.</div>
+            </div>
+            <div class="quiz" data-quiz="compare">
+                <div class="quiz-q">2. From October, the Cowork budget becomes…</div>
+                <div class="quiz-opts">
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">A bigger one-time $2,000 credit</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,true)">A monthly budget (~$50, or ~$100 for some functions)</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">Unlimited, like Gemini</button>
+                </div>
+                <div class="quiz-feedback">Correct: it moves to a smaller monthly budget, which is why good habits now matter.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ SETTINGS ============ -->
+    <section id="settings" class="section" aria-label="Settings">
+        <div class="card">
+            <h2>⚙️ Finding &amp; Using Settings</h2>
+            <p>Click your <strong>name at the bottom-left</strong> of Claude Desktop → <strong>Settings</strong>. On Mac you can also press <strong>⌘,</strong> from anywhere in the app. The sections below are the ones worth knowing for People-team work; the rest are pre-configured and safe to leave alone.</p>
+            <p class="muted">If you see "Organization settings", it's read-only and managed by IT, not something you change.</p>
+        </div>
+
+        <div class="card">
+            <h2>Usage · Watch the Credit</h2>
+            <p>Settings → <strong>Usage</strong> shows how much of your limit you've used, updated live, broken down by day/week and grouped by product.</p>
+            <div class="warn-box"><strong>Why this matters for us specifically.</strong> The People team is on the <strong>$1,000 pilot credit</strong> (through September, then a smaller monthly budget, see Compare &amp; Cost). Glancing at Usage every week or two is the single habit that keeps the credit from quietly running down, no surprises at month-end.</div>
+            <p class="muted">Only <strong>Claude Cowork</strong> usage appears here. Gemini Enterprise is free and never shows up, so a low number is expected when most routine work runs through Gemini (as it should).</p>
+        </div>
+
+        <div class="card">
+            <h2>Capabilities · What to Leave On, in Plain Language</h2>
+            <p>Settings → <strong>Capabilities</strong>. Most are already set correctly, there's nothing here to be nervous about leaving on. What the main ones actually do:</p>
+            <table>
+                <thead><tr><th>Setting</th><th>What it does</th><th>Suggested</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Search &amp; reference chats</strong></td><td>Lets Claude look back at your past conversations, so it recalls something you said last week without you repeating it.</td><td>On</td></tr>
+                    <tr><td><strong>Generate memory from chat history</strong></td><td>Claude gradually builds a persistent memory of your preferences and recurring topics. You can view and delete anything it's stored.</td><td>On</td></tr>
+                    <tr><td><strong>Connector search</strong></td><td>Surfaces the right connector (Slack, Gmail…) for a conversation without you naming it explicitly.</td><td>On</td></tr>
+                    <tr><td><strong>Location metadata</strong></td><td>Uses your rough city/region to improve answers.</td><td>Your choice (off by default)</td></tr>
+                </tbody>
+            </table>
+            <p class="muted">Under the memory toggles, <strong>"View and manage memory"</strong> lets you see and prune anything Claude has remembered, worth a check after a few weeks so nothing outdated lingers. To be clear: memory is about <em>your</em> working preferences, not the sensitive files you handle; it doesn't store employee data unless you put it there (which the Governance tab says not to).</p>
+        </div>
+
+        <div class="card">
+            <h2>Cowork Settings · Trusted Folders &amp; Global Instructions</h2>
+            <p>Settings → <strong>Cowork</strong>. Two settings here save real time.</p>
+            <h3>Trusted folders</h3>
+            <p>Normally every Cowork session asks you to confirm folder access. Marking a folder <strong>trusted</strong> skips that dialog for that one folder. Practical move: set your <strong>People-team working folder as trusted once</strong>, and you won't re-approve it every session.</p>
+            <div class="danger-box"><strong>Only trust folders you'd always be happy to grant.</strong> Never mark an HR-records, payroll, or personnel folder as trusted, that confirmation dialog is a deliberate reminder of what Claude can see. (See Governance.)</div>
+            <h3>Global instructions</h3>
+            <p>Text that applies automatically to <strong>every</strong> Cowork task, so you don't re-explain it each time. Good uses for People work:</p>
+            <ul>
+                <li>Output rules, e.g. "always start a document with a one-line summary"</li>
+                <li>File naming, e.g. "name outputs YYYY-MM-DD_description"</li>
+                <li>A standing guardrail, e.g. "never include real employee names, use placeholders" and "ask before creating new files"</li>
+            </ul>
+            <p class="muted">Think of it as a one-time briefing for a new contractor: write it once, it works every session.</p>
+        </div>
+
+        <div class="card">
+            <h2>Also Lives in Settings</h2>
+            <p class="muted"><strong>Customize → Connectors</strong> is where you check connector status and add new ones (you used this in Try It Live). <strong>Customize → Plugins</strong> shows what's installed for the team. <strong>General → "Instructions for Claude"</strong> is like Global instructions but also applies to Chat, a good place for your role and how you like output formatted (no credentials or personal data).</p>
+        </div>
+    </section>
+
+    <!-- ============ GOVERNANCE ============ -->
+    <section id="governance" class="section" aria-label="Governance">
+        <div class="card">
+            <h2>🛡️ Governance &amp; Data Privacy (read this one twice)</h2>
+            <p>The People team handles the most sensitive data in the company, so these guardrails aren't bureaucracy, they're what let us use these tools at all. Under the EU AI Act, everyone using AI systems also needs baseline AI literacy, which is part of why this session exists.</p>
+        </div>
+
+        <div class="card">
+            <h2>🚫 The Bright Lines for People Work</h2>
+            <div class="danger-box"><strong>No autonomous hiring or termination decisions.</strong> AI must not screen out candidates, rank people for hiring, or decide on dismissals on its own. Using AI to make or automate those decisions is a <strong>high-risk / prohibited pattern under the EU AI Act</strong> and exposes DH to serious liability. AI can help you <em>prepare</em> and <em>organize</em>; a human decides. Always.</div>
+            <div class="danger-box"><strong>No Special Category Data in prompts.</strong> Health, disability, ethnicity, religion, sexual orientation, union membership, biometric data (GDPR Article 9), plus salaries tied to names, IDs, and disciplinary records. These never go into a chat, a connected folder, or an uploaded file.</div>
+            <div class="warn-box"><strong>Compensation analysis needs human validation.</strong> AI can be confidently wrong on pay, especially senior bands. Every figure is "confirm against the source", never final.</div>
+        </div>
+
+        <div class="card">
+            <h2>What's OK vs Not OK to Process</h2>
+            <table>
+                <thead><tr><th>Generally OK (with human review before use)</th><th>Do not process</th></tr></thead>
+                <tbody>
+                    <tr><td>Anonymized / placeholder data</td><td>Special Category Data (GDPR Art. 9)</td></tr>
+                    <tr><td>Published JDs, policies, handbooks</td><td>Salaries or performance tied to named individuals</td></tr>
+                    <tr><td>Draft comms, templates, general research</td><td>Unreleased financials / compensation planning</td></tr>
+                    <tr><td>Operational workflows &amp; checklists</td><td>Raw personnel files, disciplinary or health records</td></tr>
+                </tbody>
+            </table>
+            <p class="muted">If you're unsure which side something falls on, treat it as "do not process" and check with your P&amp;C partner or Legal/DPO.</p>
+        </div>
+
+        <div class="card">
+            <h2>Operational Hygiene for Agentic Tools</h2>
+            <ul>
+                <li><strong>"Ask before acting" mode</strong>, especially with any file that came from outside DH. It forces a pause for your approval before any real action.</li>
+                <li><strong>Isolated folders</strong>, use a dedicated "playground" folder. Never grant Cowork access to HR records, payroll, or shared drives full of personnel data.</li>
+                <li><strong>Execution auditing</strong>, read the plan before you Approve. If a step diverges from your intent, stop it and flag it.</li>
+                <li><strong>Prompt-injection awareness</strong>, a malicious instruction can be hidden inside an uploaded document (e.g. a CV or a PDF from the web) trying to trick the AI into leaking or sending data. Another reason to keep "ask before acting" on and to review outputs.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Accounts &amp; Training Data</h2>
+            <p>Use only the <strong>org-approved enterprise account</strong> for any work data. On enterprise/business terms, your prompts are not used to train the models and the org is covered by a GDPR-compliant data agreement.</p>
+            <div class="warn-box"><strong>Never use a personal Claude/Gemini account for DH data.</strong> Personal consumer tiers can retain data and may use it for training. If you're ever unsure what tier you're on or what the exact retention terms are, confirm with IT/Legal before processing anything, don't assume.</div>
+        </div>
+
+        <div class="card">
+            <h2>Quick Check</h2>
+            <div class="quiz" data-quiz="governance">
+                <div class="quiz-q">1. Can you use Claude to automatically reject candidates who don't meet criteria, with no human review?</div>
+                <div class="quiz-opts">
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">Yes, if the criteria are clear</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,true)">No, autonomous hiring decisions are a high-risk/prohibited pattern; a human must decide</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">Yes, as long as you tell the candidate</button>
+                </div>
+                <div class="quiz-feedback">Correct: AI can help prepare and organize, but hiring and termination decisions stay with humans, this is an EU AI Act red line.</div>
+            </div>
+            <div class="quiz" data-quiz="governance">
+                <div class="quiz-q">2. Which of these is safe to put into a prompt or a connected folder?</div>
+                <div class="quiz-opts">
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">An employee's health record</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,false)">A spreadsheet of names and exact salaries</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this,true)">A published job description with no personal data</button>
+                </div>
+                <div class="quiz-feedback">Correct: published, non-personal material is fine (with review). Special Category Data and named pay data are off-limits.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FAQ & WRAP ============ -->
+    <section id="faq" class="section" aria-label="FAQ and wrap up">
+        <div class="card">
+            <h2>✅ Your Score</h2>
+            <div class="result">
+                <div>Quiz score across all sections:</div>
+                <div class="result-value" id="finalScore">0 / 12</div>
+                <div class="result-sub" id="finalScoreSub">Answer the quick-checks in each tab to build your score.</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>The Whole Session in Seven Lines</h2>
+            <ul>
+                <li><strong>Gemini first</strong> for quick, single-step, free work; <strong>Cowork</strong> for multi-step jobs.</li>
+                <li><strong>Delegate, then audit</strong>, you manage the AI and check its work; verification is the new core skill.</li>
+                <li><strong>R·T·F·C·G</strong>, Role, Task, Format, Context, Guardrails, is the habit that most improves output.</li>
+                <li><strong>Connectors only see what you can see</strong>; default to read-only.</li>
+                <li><strong>One dedicated folder</strong> per task, never your HR/payroll drives.</li>
+                <li><strong>No Special Category Data, no named pay data</strong>, ever, in a prompt.</li>
+                <li><strong>Humans decide</strong> on hiring and termination, always.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>FAQ</h2>
+            <div class="scenario" onclick="toggleScenario(this)" role="button" tabindex="0" onkeypress="if(event.key==='Enter')toggleScenario(this)">
+                <div class="scenario-question">Is my Cowork credit shared or per person?</div>
+                <div class="scenario-answer">Per person, $1,000 each for the pilot through September, then a monthly budget from October (~$50, or ~$100 for some functions).</div>
+            </div>
+            <div class="scenario" onclick="toggleScenario(this)" role="button" tabindex="0" onkeypress="if(event.key==='Enter')toggleScenario(this)">
+                <div class="scenario-question">Does reading a Slack channel or inbox burn a lot of credit?</div>
+                <div class="scenario-answer">No, reading is cheap (a busy channel is a few thousand tokens, cents). What adds up is running many multi-step Cowork tasks all day, or re-reading the same large source repeatedly. Batch related asks into one session.</div>
+            </div>
+            <div class="scenario" onclick="toggleScenario(this)" role="button" tabindex="0" onkeypress="if(event.key==='Enter')toggleScenario(this)">
+                <div class="scenario-question">The AI gave me a confident answer, do I still need to check it?</div>
+                <div class="scenario-answer">Yes, every time. Confidence is not accuracy. For People work especially, trace answers back to a source before you rely on them or send them.</div>
+            </div>
+            <div class="scenario" onclick="toggleScenario(this)" role="button" tabindex="0" onkeypress="if(event.key==='Enter')toggleScenario(this)">
+                <div class="scenario-question">What if I accidentally pasted something sensitive?</div>
+                <div class="scenario-answer">Stop, don't continue the task, and flag it to your workshop lead / IT. Don't try to "fix" it by pasting more. Going forward, use placeholders and keep sensitive files out of connected folders.</div>
+            </div>
+            <div class="scenario" onclick="toggleScenario(this)" role="button" tabindex="0" onkeypress="if(event.key==='Enter')toggleScenario(this)">
+                <div class="scenario-question">Do I need Claude Code?</div>
+                <div class="scenario-answer">Almost certainly not, it's the engineer-focused surface. Chat and Cowork cover People-team work. If a future task genuinely needs bulk file processing, ask an AI Champion first.</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Where to Go Next</h2>
+            <ul>
+                <li>Pick one recipe and use it on a real (non-sensitive) task this week, that's how it sticks.</li>
+                <li>Save your best prompts; consider a shared People-team Project with the current policies.</li>
+                <li>We'll identify a couple of <strong>AI Champions</strong> in the team as go-to peer support after today.</li>
+            </ul>
+            <p class="muted">Questions after the session go to your AI Champion or the workshop lead.</p>
+        </div>
+    </section>
+
+    <!-- ============ FOR FACILITATORS ============ -->
+    <section id="facilitator" class="section" aria-label="For facilitators">
+        <div class="card">
+            <h2>🎤 For Facilitators (lead + 1–2 co-facilitators)</h2>
+            <p>This tab is a run guide, not learner content. The goal Yash set: <strong>≈3 hours, one 15-minute break, and no 3-hour lecture where people zone out.</strong> The engagement beats are already built into the portal, the 12 quick-check questions, the hands-on recipes, and the live decision tree, so your job is to <em>use</em> them, not talk over them.</p>
+        </div>
+
+        <div class="card">
+            <h2>Suggested Run of Show (~3 hours incl. break)</h2>
+            <table>
+                <thead><tr><th>Duration</th><th>Block</th><th>Lead drives</th><th>Co-facilitator drives</th></tr></thead>
+                <tbody>
+                    <tr><td>~10 min</td><td>Welcome &amp; framing (Start Here)</td><td>Set expectations; stress "basic/generic first session, use cases come later, live"</td><td>Confirm everyone is signed in; note who's on which function</td></tr>
+                    <tr><td>~30 min</td><td>Phase 1 · Foundations</td><td>Chat vs Cowork vs Gemini; walk R·T·F·C·G</td><td>Run Q2 (R·T·F·C·G) as a live group vote</td></tr>
+                    <tr><td>~25 min</td><td>Phase 2 · Workflows</td><td>Connectors, Slack two-ways, Projects vs Gems</td><td>Run <em>both</em> quizzes live; then hold a short live Q&amp;A</td></tr>
+                    <tr><td>~15 min</td><td>☕ Break</td><td colspan="2">Hard stop at 15 min.</td></tr>
+                    <tr><td>~20 min</td><td>Phase 3 · Agentic</td><td>Delegate-and-audit; "Ask before acting"; scheduled tasks</td><td>Watch room/chat for questions</td></tr>
+                    <tr><td>~20 min</td><td>🔧 Try It Live (connect + compare)</td><td>Talk through connecting each connector; run the shared prompt on screen in both tools</td><td>Circulate; own connector-authorization unblocking; watch the room's checklist progress</td></tr>
+                    <tr><td>~40 min</td><td>HR Recipes (hands-on core)</td><td>Demo Recipe 1 live end-to-end with sample data</td><td>Circulate/unblock 1:1; spot 2–3 share-out volunteers</td></tr>
+                    <tr><td>~15 min</td><td>Compare &amp; Cost</td><td>Run the decision tree live on a real task</td><td>Run Q1 (tool choice) as a group</td></tr>
+                    <tr><td>~20 min</td><td>Governance</td><td>Walk the bright lines slowly, this is the one to not rush</td><td>Run <em>both</em> governance quizzes live</td></tr>
+                    <tr><td>~10 min</td><td>FAQ &amp; wrap</td><td>Name the AI Champions; point to follow-up sessions</td><td>Collect open questions to answer async</td></tr>
+                </tbody>
+            </table>
+            <p class="muted">If you're running long, trim discussion in Compare &amp; Cost first, then Phase 3, never the hands-on or Governance.</p>
+        </div>
+
+        <div class="card">
+            <h2>Quiz Pause Points (12 questions, 2 per content tab)</h2>
+            <p>The portal has a built-in self-check score. You don't need to run all 12 live, mixing keeps energy up:</p>
+            <ul>
+                <li><strong>Run live as a group vote</strong> (show of hands / poll, then reveal): Phase 1 Q2, both Phase 2 questions, Compare Q1, and both Governance questions. These carry the ideas people most need to retain.</li>
+                <li><strong>Leave self-serve</strong> (people answer as they read the tab): the rest. Encourage them to try before revealing.</li>
+            </ul>
+            <div class="info-box"><strong>Facilitator tip:</strong> after a wrong-answer reveal, ask "why is that the trap?" out loud, the discussion sticks better than the correct answer alone.</div>
+        </div>
+
+        <div class="card">
+            <h2>Live Q&amp;A Spots</h2>
+            <ul>
+                <li><strong>After Phase 2 (Workflows)</strong> — connectors and permissions generate the most questions; hold ~5 min here.</li>
+                <li><strong>During "Try It Live"</strong> — the connect-and-compare block is the key hands-on hand-off; a co-facilitator owns unblocking connector authorizations (usually an org toggle, not user error).</li>
+                <li><strong>After the HR Recipes hands-on</strong> — 2–3 volunteers share what they built; this doubles as Q&amp;A and social proof.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Co-Facilitator Roles</h2>
+            <ul>
+                <li><strong>Lead:</strong> drives the shared screen, demos, and keeps time.</li>
+                <li><strong>Co-facilitator 1:</strong> watches the room and chat, fields questions, flags any connector-authorization issues (usually an org toggle, not user error), and runs the live quiz votes.</li>
+                <li><strong>Co-facilitator 2 (if available):</strong> circulates during the hands-on block, unblocks people one-to-one, and lines up share-out volunteers.</li>
+            </ul>
+            <p class="muted">With ~20 attendees, two circulating helpers during the hands-on block is the single biggest driver of "everyone finishes one real task."</p>
+        </div>
+    </section>
+
+    <footer>
+        Claude &amp; Cowork enablement for the People team · Delivery Hero · Built in Claude Cowork · Verify AI output before use
+    </footer>
+</div>
+
+<script>
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        var btn = document.querySelector('.toggle-btn');
+        var dark = document.body.classList.contains('dark-mode');
+        btn.classList.toggle('on', dark);
+        btn.textContent = dark ? '☀️ Light Mode' : '🌙 Dark Mode';
+    }
+    function showTab(id, btn) {
+        document.querySelectorAll('.section').forEach(function(s){ s.classList.remove('active'); });
+        document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+        document.getElementById(id).classList.add('active');
+        btn.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function toggleScenario(el) { el.querySelector('.scenario-answer').classList.toggle('show'); }
+
+    function updateHuntProgress() {
+        var boxes = document.querySelectorAll('#liveHuntList input[type="checkbox"]');
+        var done = 0; boxes.forEach(function(b){ if (b.checked) done++; });
+        document.getElementById('liveHuntProgress').textContent = done + ' / ' + boxes.length + ' connected';
+    }
+
+    var totalQuestions = document.querySelectorAll('.quiz').length;
+    var correctCount = 0;
+    function answerQuiz(btn, isCorrect) {
+        var quiz = btn.closest('.quiz');
+        if (quiz.dataset.answered === 'true') return;
+        quiz.dataset.answered = 'true';
+        var opts = quiz.querySelectorAll('.quiz-opt');
+        opts.forEach(function(o){ o.disabled = true; });
+        if (isCorrect) { btn.classList.add('correct'); correctCount++; }
+        else {
+            btn.classList.add('wrong');
+            opts.forEach(function(o){ if (o.getAttribute('onclick').indexOf('true') !== -1) o.classList.add('correct'); });
+        }
+        quiz.querySelector('.quiz-feedback').classList.add('show');
+        updateScore();
+    }
+    function updateScore() {
+        var answered = document.querySelectorAll('.quiz[data-answered="true"]').length;
+        document.getElementById('scorePill').textContent = 'Quiz: ' + correctCount + ' / ' + answered;
+        var fs = document.getElementById('finalScore');
+        if (fs) {
+            fs.textContent = correctCount + ' / ' + totalQuestions;
+            var sub = document.getElementById('finalScoreSub');
+            if (answered < totalQuestions) sub.textContent = 'Answered ' + answered + ' of ' + totalQuestions + ' so far, finish the rest in the other tabs.';
+            else if (correctCount === totalQuestions) sub.textContent = 'Full marks. Now go run a real recipe, that\'s the actual test.';
+            else sub.textContent = 'Nicely done. Revisit any tab where a question tripped you up.';
+        }
+    }
+
+    function dtAnswer(step, val) {
+        if (step === 1) {
+            if (val === 'yes') { showDt('dtResultGeminiSimple'); return; }
+            document.getElementById('dtStep1').style.display = 'none';
+            document.getElementById('dtStep2').style.display = 'block';
+        }
+        if (step === 2) { showDt(val === 'yes' ? 'dtResultClaude' : 'dtResultGeminiModerate'); }
+    }
+    function showDt(id) {
+        document.getElementById('dtStep1').style.display = 'none';
+        document.getElementById('dtStep2').style.display = 'none';
+        document.querySelectorAll('.dt-result').forEach(function(r){ r.classList.remove('show'); });
+        document.getElementById(id).classList.add('show');
+    }
+    function dtRestart() {
+        document.querySelectorAll('.dt-result').forEach(function(r){ r.classList.remove('show'); });
+        document.getElementById('dtStep2').style.display = 'none';
+        document.getElementById('dtStep1').style.display = 'block';
+    }
+
+    // Cost calculator (approximation only). Blended per-token stand-in rate.
+    function calcCost() {
+        var inTok = +document.getElementById('inTok').value || 0;
+        var outTok = +document.getElementById('outTok').value || 0;
+        var steps = +document.getElementById('steps').value || 0;
+        var perWeek = +document.getElementById('perWeek').value || 0;
+        var IN_RATE = 3 / 1000000;   // $3 / M input tokens (stand-in)
+        var OUT_RATE = 15 / 1000000; // $15 / M output tokens (stand-in)
+        var perTask = steps * (inTok * IN_RATE + outTok * OUT_RATE);
+        document.getElementById('costVal').textContent = '$' + perTask.toFixed(2);
+        var weekly = perTask * perWeek;
+        var sub = '~$' + weekly.toFixed(2) + '/week at ' + perWeek + '×. ';
+        if (weekly > 0) sub += 'Your $1,000 pilot credit ≈ ' + Math.floor(1000 / weekly) + ' weeks of this pattern.';
+        document.getElementById('costSub').textContent = sub;
+    }
+    calcCost();
+
+    const PW_HASH = 'd218d856';
+    function simpleHash(str) {
+        let hash = 5381;
+        for (let i = 0; i < str.length; i++) {
+            hash = ((hash << 5) + hash + str.charCodeAt(i)) >>> 0;
+        }
+        return hash.toString(16);
+    }
+    function checkPassword() {
+        const input = document.getElementById('pwInput').value;
+        if (simpleHash(input) === PW_HASH) {
+            document.body.classList.remove('pw-locked');
+            document.getElementById('pw-gate').style.display = 'none';
+            localStorage.setItem('pc_cowork_pw_unlocked', 'true');
+        } else {
+            document.getElementById('pwError').textContent = 'Incorrect password, try again.';
+            document.getElementById('pwInput').value = '';
+        }
+    }
+    function togglePwVisibility() {
+        const input = document.getElementById('pwInput');
+        input.type = input.type === 'password' ? 'text' : 'password';
+    }
+    document.getElementById('pwInput').addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
+    if (localStorage.getItem('pc_cowork_pw_unlocked') === 'true') {
+        document.body.classList.remove('pw-locked');
+        document.getElementById('pw-gate').style.display = 'none';
+    }
+</script>
+</body>
+</html>
