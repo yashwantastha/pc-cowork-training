@@ -58,8 +58,8 @@
     .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
     .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
     .input-group { display: flex; flex-direction: column; gap: 5px; font-size: 13px; font-weight: 500; }
-    input[type="number"], select { padding: 9px 10px; border: 1px solid #d2d2d7; border-radius: 8px; font-size: 14px; background: white; color: inherit; width: 100%; }
-    body.dark-mode input, body.dark-mode select { background: #1a1b1d; border-color: #444; color: #e6e6e6; }
+    input[type="number"], select, textarea { padding: 9px 10px; border: 1px solid #d2d2d7; border-radius: 8px; font-size: 14px; background: white; color: inherit; width: 100%; font-family: inherit; resize: vertical; }
+    body.dark-mode input, body.dark-mode select, body.dark-mode textarea { background: #1a1b1d; border-color: #444; color: #e6e6e6; }
 
     .breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 14px 0; }
     .breakdown-item { background: #f5f5f7; padding: 10px; border-radius: 8px; text-align: center; }
@@ -189,7 +189,7 @@
             <h2>What Is This, Really?</h2>
             <p>This is a hands-on introduction to two AI assistants the People team now has access to: <strong>Claude</strong> (Chat + Cowork) and <strong>Gemini Enterprise</strong>. Think of either one like a very fast colleague who's read almost everything, answers straight away, and can reach into your connected apps when you ask. By the end you'll know which tool to use for which job, how to connect them safely, and you'll have run a real People-team task yourself.</p>
             <p>The big shift to get comfortable with: you're moving from <em>doing the work with an AI</em> to <em>delegating the work to it and reviewing the result</em>, like managing a capable new hire rather than typing into a search box. That's the whole reason Cowork feels different from Gemini.</p>
-            <div class="info-box"><strong>What this session is (and isn't).</strong> This is a <strong>basic, generic first workshop</strong>: the goal is that everyone understands how the tools work and what's possible, full stop. We're deliberately <em>not</em> splitting into separate tracks per job family today. Role-specific use cases (Total Rewards, People Ops, TA, and the rest) come in <strong>follow-up sessions we'll build live together</strong>, taking real tasks from the group once everyone knows how the system behaves.</div>
+            <div class="info-box"><strong>What this session is (and isn't).</strong> This is a <strong>basic, generic first workshop</strong>: the goal is that everyone understands how the tools work and what's possible, full stop. We're deliberately <em>not</em> splitting into separate tracks per job family today. Role-specific use cases (People Partners, Total Rewards, People Ops, HR Operations, TA, and the rest) come in <strong>follow-up sessions we'll build live together</strong>, taking real tasks from the group once everyone knows how the system behaves.</div>
         </div>
 
         <div class="card">
@@ -217,6 +217,7 @@
             <h2>Prerequisite (already done for this session)</h2>
             <p>Everyone here already has Claude Desktop installed and is signed in with their Delivery Hero work account, nothing to set up today. Gemini Enterprise runs in your browser, also signed in with your work account, no install. If either ever asks for a personal Google/email account instead of your work one, stop and flag it.</p>
             <p class="muted">If sign-in looks broken: log fully out and back in (don't just close the app). That fixes most issues.</p>
+            <div class="info-box"><strong>No homework, no pre-reading.</strong> The <em>only</em> thing to do before you arrive is have Claude/Cowork installed and signed in on your laptop. No forms, no reading, no advance prep, just come as you are and we'll do the rest live.</div>
         </div>
 
         <div class="card">
@@ -469,6 +470,14 @@ Guardrails: Don't invent any policy. Flag anything missing rather than guessing.
             <p class="muted">Then, Claude-only: try "Summarize what's happened in #[a People-team channel you're in] over the last day." Gemini Enterprise here can't do this one, our Gemini isn't connected to Slack, which is a concrete reminder of where each tool's reach ends.</p>
             <div class="info-box">This connect-and-compare block is the natural co-facilitator hand-off, see the <strong>For Facilitators</strong> tab for how to run it.</div>
         </div>
+
+        <div class="card">
+            <h2>💡 Wish List (optional, 1 minute)</h2>
+            <p>One light, optional thing: jot down <strong>one task you wish AI could do for your job</strong>, anything, however big or far-fetched it sounds ("predict who might leave", "auto-tidy our shared drive", "draft every reference letter for me"). There are no wrong answers, and nothing to submit in advance, you can fill this in live during the session, or beforehand if you feel like it.</p>
+            <label for="wishInput" class="muted">Your wish (stays on your screen, nothing is saved or sent):</label>
+            <textarea id="wishInput" rows="2" style="margin-top:6px;" placeholder="I wish AI could…"></textarea>
+            <p class="muted">We'll collect a few of these live and do a quick reality check on the spot, "this one we can build today; that one's a great follow-up-session idea." It's how your real problems become the use cases we build together next.</p>
+        </div>
     </section>
 
     <!-- ============ HR RECIPES ============ -->
@@ -476,7 +485,7 @@ Guardrails: Don't invent any policy. Flag anything missing rather than guessing.
         <div class="card">
             <h2>🍳 How to Read a "Recipe"</h2>
             <p>Each recipe maps to a painful, repetitive People-team task. The pattern is always the same: a co-facilitator runs it live, then <strong>you replicate it with your own (non-sensitive) sample data</strong> while support is in the room. Every recipe ends with a verification step, because that's the job now.</p>
-            <p class="muted">The three are deliberately drawn from <strong>different P&amp;C functions</strong> so everyone sees something familiar: Recipe 1 is a <strong>People Ops</strong> job, Recipe 2 is a <strong>Total Rewards</strong> job, and Recipe 3 is shared knowledge work any function does. The <em>technique</em> is identical across all of them, so whichever you run, it transfers to your own work.</p>
+            <p class="muted">The three are deliberately drawn from <strong>different P&amp;C functions</strong> so everyone sees something familiar: Recipe 1 is a <strong>People Ops</strong> job, Recipe 2 is a <strong>Total Rewards</strong> job, and Recipe 3 is shared knowledge work any function does. <strong>HR Operations</strong> sits across all three, and some HR Ops workflows are more data-heavy, we'll go deeper on those in follow-up sessions. The <em>technique</em> is identical across all of them, so whichever you run, it transfers to your own work.</p>
             <div class="danger-box"><strong>Use sample / anonymized data in the workshop.</strong> For practice, strip real names and any personal identifiers. Use "Candidate A", a fake start date, a placeholder salary band. The skill transfers perfectly; the risk doesn't.</div>
         </div>
 
@@ -835,6 +844,7 @@ Guardrails: If the answer isn't in the documents, say "Not covered, please check
                 <li>Pick one recipe and use it on a real (non-sensitive) task this week, that's how it sticks.</li>
                 <li>Save your best prompts; consider a shared People-team Project with the current policies.</li>
                 <li>We'll identify a couple of <strong>AI Champions</strong> in the team as go-to peer support after today.</li>
+                <li><strong>What's next:</strong> this baseline session → a shorter leadership follow-up to brainstorm department-specific use cases → and, further out, a possible P&amp;C "hackathon" where teams pick a real problem and prototype a solution with what they've learned. (A preview, not fixed dates yet.)</li>
             </ul>
             <p class="muted">Questions after the session go to your AI Champion or the workshop lead.</p>
         </div>
@@ -882,6 +892,7 @@ Guardrails: If the answer isn't in the documents, say "Not covered, please check
             <ul>
                 <li><strong>After Phase 2 (Workflows)</strong> — connectors and permissions generate the most questions; hold ~5 min here.</li>
                 <li><strong>During "Try It Live"</strong> — the connect-and-compare block is the key hands-on hand-off; a co-facilitator owns unblocking connector authorizations (usually an org toggle, not user error).</li>
+                <li><strong>Wish List moment (in "Try It Live")</strong> — collect a few attendees' Wish List answers out loud and reality-check 1–2 on the spot ("we can build that today" vs "great follow-up-session idea"). Same pause-point pattern as the quizzes; it turns real problems into the next sessions' use cases.</li>
                 <li><strong>After the HR Recipes hands-on</strong> — 2–3 volunteers share what they built; this doubles as Q&amp;A and social proof.</li>
             </ul>
         </div>
@@ -894,6 +905,7 @@ Guardrails: If the answer isn't in the documents, say "Not covered, please check
                 <li><strong>Co-facilitator 2 (if available):</strong> circulates during the hands-on block, unblocks people one-to-one, and lines up share-out volunteers.</li>
             </ul>
             <p class="muted">With ~20 attendees, two circulating helpers during the hands-on block is the single biggest driver of "everyone finishes one real task."</p>
+            <div class="info-box"><strong>Staffing rule of thumb.</strong> Plan for <strong>at least 3 facilitators (including the lead) per ~50 attendees</strong>, and scale up for larger groups (capacity is being planned for 50–100). It's guidance, not a rigid formula, err toward more hands for the hands-on and Try It Live blocks. Co-facilitators can be sourced <strong>from within the audience team itself</strong>, not only from the trainer's own org, so a willing volunteer from the P&amp;C group is a perfectly good co-facilitator.</div>
         </div>
     </section>
 
