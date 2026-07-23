@@ -349,6 +349,48 @@ Guardrails: Don't invent any policy. Flag anything missing rather than guessing.
         </div>
 
         <div class="card">
+            <h2>Claude Projects, Properly</h2>
+            <p>The card above is the quick version. Because Projects are the single most useful thing most People-team folks will set up, here's the full picture.</p>
+
+            <h3>What a Project actually is</h3>
+            <p>A <strong>persistent workspace inside Claude Chat</strong>: a set of uploaded reference files plus standing custom instructions that <em>every</em> new chat you start inside that Project automatically has, with its own separate chat history. Nothing about a Project touches your computer's file system, it's a curated reference library Claude reads from, not a folder on your machine.</p>
+
+            <h3>How to create one</h3>
+            <ol class="step-list">
+                <li>Open Claude Desktop → sidebar → <strong>Projects</strong> → <strong>New Project</strong></li>
+                <li>Name it something specific to its purpose (e.g. "Policy &amp; Handbook Q&amp;A", not "HR stuff")</li>
+                <li>Upload the reference files, policies, handbook pages, past decisions</li>
+                <li>Write custom instructions once: tone, standing context, what to always assume</li>
+                <li>Start chatting inside it, every chat now begins from that context</li>
+            </ol>
+
+            <h3>How to update one</h3>
+            <p>You don't rebuild it. Open the Project → add or remove files whenever a policy changes → edit the custom instructions the same way. Existing chats inside the Project keep their history; new chats immediately see the update. No need to re-upload everything or start a fresh Project just because one document changed.</p>
+
+            <h3>Projects vs a Cowork folder, the actual difference</h3>
+            <p class="muted">This is the most common confusion, worth reading slowly:</p>
+            <table>
+                <thead><tr><th></th><th>Claude Project</th><th>Cowork + a folder</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>What it is</strong></td><td>A curated reference library Claude reads from inside Chat</td><td>A real folder on your computer Cowork is given permission to read <em>and write to</em></td></tr>
+                    <tr><td><strong>Purpose</strong></td><td>Answering questions grounded in stable material</td><td>Doing a task that produces or edits actual files</td></tr>
+                    <tr><td><strong>Persistence</strong></td><td>Lives until you delete it; reused across many chats</td><td>Scoped to the task; you re-grant or re-point it per job</td></tr>
+                    <tr><td><strong>Creates/edits files on your computer?</strong></td><td>No</td><td>Yes, that's the point</td></tr>
+                    <tr><td><strong>Best for</strong></td><td>"What's our policy on X", repeated Q&amp;A</td><td>"Build me a doc", "update this spreadsheet", "draft these five things"</td></tr>
+                </tbody>
+            </table>
+
+            <h3>When to use which</h3>
+            <p>If the ask is "<em>explain or answer based on documents we already have</em>," reach for a <strong>Project</strong>. If the ask is "<em>go do something and hand me a file</em>," reach for <strong>Cowork with a folder</strong>. Many real workflows use both: a Project to ground the answer, then Cowork to turn that answer into an actual deliverable.</p>
+
+            <h3>How many should you actually create</h3>
+            <p>Guidance, not a hard rule: <strong>start with 2–3 total, not one per topic</strong>. For example, one Project for "Policy &amp; Handbook Q&amp;A" (leave policy, benefits, onboarding guide all in one place) and one for whatever your current non-BAU initiative is. More than a handful gets hard to keep updated, and people forget which one holds the latest file. <strong>Consolidate before you create a new one.</strong></p>
+
+            <h3>A real example, worked through</h3>
+            <p>Build a "People Policy Assistant" Project: upload the parental-leave policy, the leave-request handbook page, and the onboarding guide, then set the instruction "always answer in DH's tone, cite which document you're quoting, and say so if something isn't covered." Now "what's our policy on X" always starts from the right documents instead of a blank page or a stale memory of what the policy used to say. When a policy changes, you swap that one file and every future chat is current.</p>
+        </div>
+
+        <div class="card">
             <h2>Skills &amp; the "Important Folder"</h2>
             <p><strong>Skills</strong> are reusable, packaged capabilities, like camera presets. You pick one and it handles the details (e.g. producing a polished Word or Excel file). Some are built in; your admins may push custom ones, check the Plugins panel to see what's available to the People team.</p>
             <p><strong>The "important folder"</strong> is the practical safety habit: when Cowork works on your files, you grant access to <em>one dedicated folder</em>, not your whole computer.</p>
@@ -395,6 +437,11 @@ Guardrails: Don't invent any policy. Flag anything missing rather than guessing.
                 <li>Review the plan it proposes <em>before</em> you click Approve.</li>
                 <li>Check the output against the source before you use it.</li>
             </ol>
+
+            <h3>A Worked Example: File In, File Out</h3>
+            <p>Concretely, here's what "delegating a task" looks like. You point Cowork at a folder and ask it to <em>create a one-page new-joiner welcome checklist as a Google Doc in this folder</em>. It proposes a plan; you approve; it creates the file. Then you ask for a change, <em>"add a section for IT equipment setup"</em>, and it edits the <strong>same file</strong> rather than starting over, so you can see exactly what changed. Finally you ask it to double-check the result against your original ask before you call it done.</p>
+            <p>That's the whole loop: <strong>create → revise → verify</strong>. It's the same shape whether the output is a doc, a spreadsheet, or a slide, once you've done it once, every task after that feels familiar.</p>
+            <p class="muted">This only works because you pointed it at <strong>one dedicated folder</strong>, not your whole drive, same rule as before.</p>
         </div>
 
         <div class="card">
@@ -471,6 +518,25 @@ Guardrails: Don't invent any policy. Flag anything missing rather than guessing.
             </ul>
             <p class="muted">Then, Claude-only: try "Summarize what's happened in #[a People-team channel you're in] over the last day." Gemini Enterprise here can't do this one, our Gemini isn't connected to Slack, which is a concrete reminder of where each tool's reach ends.</p>
             <div class="info-box">This connect-and-compare block is the natural co-facilitator hand-off, see the <strong>For Facilitators</strong> tab for how to run it.</div>
+        </div>
+
+        <div class="card">
+            <h2>Step 3 · Create a Project, Then Compare With vs Without</h2>
+            <p>This is the one exercise in the room that makes the Projects concept click, because you'll watch the same question get a noticeably better, more specific answer once it's grounded in a document.</p>
+            <p>Use this <strong>fictional practice policy</strong> (not a real DH policy), copy it into a plain-text file to upload:</p>
+            <div class="prompt-box">Sample Company Leave Policy (for practice only)
+- Parental leave: 16 weeks paid, either parent, must be taken within 12 months of birth/adoption.
+- Sabbatical: after 5 years' tenure, up to 4 weeks unpaid, manager approval required.
+- Bereavement leave: 5 days paid for immediate family, 2 days for extended family.</div>
+            <ol class="step-list">
+                <li>Open a <strong>brand-new Chat</strong> (no Project). Ask: <em>"How much paid parental leave does our sample policy give, and does it matter which parent takes it?"</em></li>
+                <li>Note what it says, it's guessing or answering generically, it has no source.</li>
+                <li>Create a new Project called <strong>"Practice Policy Project"</strong>, upload the sample policy above as a file, and add one custom instruction: "Only answer from the uploaded policy, say so if something isn't covered."</li>
+                <li>Ask the <strong>exact same question</strong> inside that Project.</li>
+                <li>Compare: specificity, whether it cited the source, whether it admitted any gaps.</li>
+            </ol>
+            <p><strong>What this proves:</strong> same model, same question, the only variable was grounding. That's the whole pitch for when a Project is worth setting up.</p>
+            <div class="info-box">Facilitator note: the lead builds this Project live on screen from their own account first, so the room sees it end to end before doing it themselves, same pattern as the connectors step.</div>
         </div>
 
         <div class="card">
@@ -838,6 +904,32 @@ Guardrails: If the answer isn't in the documents, say "Not covered, please check
                 <div class="scenario-question">Do I need Claude Code?</div>
                 <div class="scenario-answer">Almost certainly not, it's the engineer-focused surface. Chat and Cowork cover People-team work. If a future task genuinely needs bulk file processing, ask an AI Champion first.</div>
             </div>
+
+            <h3>About Projects</h3>
+            <div class="scenario" onclick="toggleScenario(this)" role="button" tabindex="0" onkeypress="if(event.key==='Enter')toggleScenario(this)">
+                <div class="scenario-question">How many Projects should I have?</div>
+                <div class="scenario-answer">2–3 is the practical ceiling before they get hard to maintain. Consolidate related topics into one Project (e.g. all policy docs together) rather than making a new one per question.</div>
+            </div>
+            <div class="scenario" onclick="toggleScenario(this)" role="button" tabindex="0" onkeypress="if(event.key==='Enter')toggleScenario(this)">
+                <div class="scenario-question">If I update a file in a Project, does it affect old chats I already had in it?</div>
+                <div class="scenario-answer">Old chat transcripts don't rewrite themselves, but any new question you ask, in an old chat or a new one, uses the latest files.</div>
+            </div>
+            <div class="scenario" onclick="toggleScenario(this)" role="button" tabindex="0" onkeypress="if(event.key==='Enter')toggleScenario(this)">
+                <div class="scenario-question">Does a Project cost more credit than a normal chat?</div>
+                <div class="scenario-answer">No, a Project chat is priced the same as a regular chat. It's just starting from more context, which is the whole point.</div>
+            </div>
+            <div class="scenario" onclick="toggleScenario(this)" role="button" tabindex="0" onkeypress="if(event.key==='Enter')toggleScenario(this)">
+                <div class="scenario-question">Can I share a Project with a teammate?</div>
+                <div class="scenario-answer">Not directly, Projects are personal to your account for now. If two people need the same grounded assistant, each sets up their own with the same source files.</div>
+            </div>
+            <div class="scenario" onclick="toggleScenario(this)" role="button" tabindex="0" onkeypress="if(event.key==='Enter')toggleScenario(this)">
+                <div class="scenario-question">Why put something in a Project vs just pasting it into the chat every time?</div>
+                <div class="scenario-answer">A Project remembers it permanently across every future chat. Pasting means retyping or re-uploading it each time, and it's gone once that chat ends.</div>
+            </div>
+            <div class="scenario" onclick="toggleScenario(this)" role="button" tabindex="0" onkeypress="if(event.key==='Enter')toggleScenario(this)">
+                <div class="scenario-question">Do I need a Cowork folder if I already have a Project?</div>
+                <div class="scenario-answer">Different jobs. A Project answers questions; a Cowork folder is for when you need it to actually produce or edit a file. Plenty of workflows use both.</div>
+            </div>
         </div>
 
         <div class="card">
@@ -896,6 +988,7 @@ Guardrails: If the answer isn't in the documents, say "Not covered, please check
             <ul>
                 <li><strong>After Phase 2 (Workflows)</strong> — connectors and permissions generate the most questions; hold ~5 min here.</li>
                 <li><strong>During "Try It Live"</strong> — the connect-and-compare block is the key hands-on hand-off; a co-facilitator owns unblocking connector authorizations (usually an org toggle, not user error).</li>
+                <li><strong>Step 3 (Create a Project)</strong> — the lead builds the "Practice Policy Project" live on screen first, then attendees replicate it, same demo-then-do pattern as the connectors step.</li>
                 <li><strong>Wish List moment (in "Try It Live")</strong> — collect a few attendees' Wish List answers out loud and reality-check 1–2 on the spot ("we can build that today" vs "great follow-up-session idea"). Same pause-point pattern as the quizzes; it turns real problems into the next sessions' use cases.</li>
                 <li><strong>After the HR Recipes hands-on</strong> — 2–3 volunteers share what they built; this doubles as Q&amp;A and social proof.</li>
             </ul>
