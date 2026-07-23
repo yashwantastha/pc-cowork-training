@@ -153,6 +153,14 @@
     body.dark-mode .result-sub { color: #bbb; }
 
     footer { text-align: center; padding: 20px; font-size: 12px; color: #999; }
+
+    .screenshot { display: block; max-width: 100%; height: auto; margin: 14px auto 4px; border-radius: 10px; border: 1px solid #d2d2d7; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    body.dark-mode .screenshot { border-color: #3a3b3d; box-shadow: 0 2px 8px rgba(0,0,0,0.35); }
+    .screenshot-cap { display: block; text-align: center; color: #6e6e73; font-size: 12.5px; margin: 0 auto 14px; }
+    body.dark-mode .screenshot-cap { color: #a1a1a6; }
+    .shot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin: 14px 0; }
+    .shot-grid figure { margin: 0; }
+    .shot-grid .screenshot { margin-bottom: 6px; }
 </style>
 </head>
 <body>
@@ -249,6 +257,17 @@
                 <div class="concept-card"><h3>🧑‍💻 Claude Code</h3><p class="muted">A "bulk document processor" built for engineers. You almost certainly won't need it, though it's the tool behind pointing at hundreds of contracts at once (a Legal use case, not ours).</p></div>
             </div>
             <p style="margin-top:12px;">There's also <strong>Claude Design</strong>, an "interactive whiteboard" that turns text into slide decks and one-pagers, handy later for People-team comms, but not today's focus.</p>
+            <div class="shot-grid">
+                <figure>
+                    <img class="screenshot" src="images/settings/chat-home.png" alt="Claude Chat home screen with Chat, Projects, Artifacts and Customize in the sidebar">
+                    <span class="screenshot-cap">Claude Chat</span>
+                </figure>
+                <figure>
+                    <img class="screenshot" src="images/settings/cowork-home-annotated.png" alt="Claude Cowork home screen with New task, Projects, Artifacts, Scheduled and the Work in a project or folder picker circled">
+                    <span class="screenshot-cap">Claude Cowork (the circled "Work in a project or folder" picker is the tell)</span>
+                </figure>
+            </div>
+            <p class="muted">The sidebar is the tell: <strong>"New task"</strong> plus a "Work in a project or folder" picker means you're in Cowork, not Chat.</p>
         </div>
 
         <div class="card">
@@ -752,6 +771,9 @@ Guardrails: If the answer isn't in the documents, say "Not covered, please check
             <p>Settings → <strong>Usage</strong> shows how much of your limit you've used, updated live, broken down by day/week and grouped by product.</p>
             <div class="warn-box"><strong>Why this matters for us specifically.</strong> The People team is on the <strong>$1,000 pilot credit</strong> (through September, then a smaller monthly budget, see Compare &amp; Cost). Glancing at Usage every week or two is the single habit that keeps the credit from quietly running down, no surprises at month-end.</div>
             <p class="muted">Only <strong>Claude Cowork</strong> usage appears here. Gemini Enterprise is free and never shows up, so a low number is expected when most routine work runs through Gemini (as it should).</p>
+            <img class="screenshot" src="images/settings/usage-spend.png" alt="Settings Usage panel showing daily spend chart grouped by product and a per-product spend table">
+            <span class="screenshot-cap">Settings → Usage → Daily, grouped by product.</span>
+            <p>The <strong>per-product breakdown table</strong> (Chat, Cowork, Claude Code, and so on) is what tells you where the $1,000 is actually going, not just the running total.</p>
         </div>
 
         <div class="card">
@@ -767,6 +789,16 @@ Guardrails: If the answer isn't in the documents, say "Not covered, please check
                 </tbody>
             </table>
             <p class="muted">Under the memory toggles, <strong>"View and manage memory"</strong> lets you see and prune anything Claude has remembered, worth a check after a few weeks so nothing outdated lingers. To be clear: memory is about <em>your</em> working preferences, not the sensitive files you handle; it doesn't store employee data unless you put it there (which the Governance tab says not to).</p>
+            <div class="shot-grid">
+                <figure>
+                    <img class="screenshot" src="images/settings/capabilities-memory.png" alt="Settings Capabilities panel showing the Memory section and General tool access and connector search options">
+                    <span class="screenshot-cap">Memory &amp; General</span>
+                </figure>
+                <figure>
+                    <img class="screenshot" src="images/settings/capabilities-visuals.png" alt="Settings Capabilities panel showing the Visuals section with Artifacts, AI-powered artifacts and inline visualizations">
+                    <span class="screenshot-cap">Visuals</span>
+                </figure>
+            </div>
         </div>
 
         <div class="card">
@@ -783,11 +815,30 @@ Guardrails: If the answer isn't in the documents, say "Not covered, please check
                 <li>A standing guardrail, e.g. "never include real employee names, use placeholders" and "ask before creating new files"</li>
             </ul>
             <p class="muted">Think of it as a one-time briefing for a new contractor: write it once, it works every session.</p>
+            <img class="screenshot" src="images/settings/cowork-settings-annotated.png" alt="Settings Cowork panel showing Cowork files location, the Trusted Cowork folders Manage button circled, and Global instructions">
+            <span class="screenshot-cap">Settings → Cowork. All three settings live on one screen; the circled <strong>Manage</strong> button is where you add or remove trusted folders.</span>
         </div>
 
         <div class="card">
             <h2>Also Lives in Settings</h2>
             <p class="muted"><strong>Customize → Connectors</strong> is where you check connector status and add new ones (you used this in Try It Live). <strong>Customize → Plugins</strong> shows what's installed for the team. <strong>General → "Instructions for Claude"</strong> is like Global instructions but also applies to Chat, a good place for your role and how you like output formatted (no credentials or personal data).</p>
+            <img class="screenshot" src="images/settings/connectors-annotated.png" alt="Customize Connectors list showing Slack, Gmail, Google Calendar and Google Drive connected, with the Slack row status checkmark circled">
+            <span class="screenshot-cap">Customize → Connectors. The circled <strong>Slack</strong> checkmark ties back to "Connecting Claude to Slack" in Phase 2.</span>
+            <p>Slack, Gmail, Calendar and Drive are already connected org-wide, so most people only need to <em>check</em> this tab, not set anything up. A checkmark in the Status column means it's ready; a "Connect" button means it isn't turned on yet.</p>
+        </div>
+
+        <div class="card">
+            <h2>The Desktop App Has Its Own Settings Too</h2>
+            <p>Everything above is <strong>account-level</strong> (it follows you wherever you sign in). The Claude Desktop app also has its own <strong>device-level</strong> settings, grouped under "Desktop app" in the same Settings sidebar. Two are worth knowing.</p>
+            <h3>General</h3>
+            <p>Small comfort settings for the app on your Mac: <strong>run on startup</strong> so Claude is ready when you log in, a <strong>menu bar icon</strong> for quick access, and a <strong>quick-access shortcut</strong> (double-tap Option) that lets you message Claude from anywhere without opening the full window.</p>
+            <img class="screenshot" src="images/settings/desktop-general.png" alt="Desktop app General settings showing run on startup, quick access shortcut, menu bar icon and keep computer awake options">
+            <span class="screenshot-cap">Desktop app → General.</span>
+            <h3>Extensions</h3>
+            <p>Different from <strong>Connectors</strong>. Connectors reach <em>web</em> apps (Slack, Gmail, Drive); <strong>Extensions</strong> let Claude control things directly on your Mac, for example <strong>Control Chrome</strong> or <strong>Read and Send iMessages</strong>.</p>
+            <img class="screenshot" src="images/settings/extensions.png" alt="Desktop app Extensions settings showing Control Chrome and Read and Send iMessages, with drag-to-install">
+            <span class="screenshot-cap">Desktop app → Extensions.</span>
+            <div class="warn-box"><strong>Same rule as trusted folders.</strong> Only enable an extension you'd be comfortable Claude actually using, an extension that can drive Chrome or send messages is powerful, so turn it on deliberately, not "just in case".</div>
         </div>
     </section>
 
